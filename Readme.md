@@ -1,8 +1,8 @@
 ### This file sorter ONLY works on LINUX 
 
 # Installation/Setup
-    Source Build:
-      '''bash
+  Source Build:
+
       git clone https://github.com/CYGear/LinuxFileSorter ~/LinuxFileSorter
       cd ~/LinuxFileSorter
       cmake -B build
@@ -12,7 +12,6 @@
 
       # optional - delete ~/LinuxFileSorter
       rm -rf ~/LinuxFileSorter
-      '''
 
 # Usage 
     linuxfilesorter -flag
