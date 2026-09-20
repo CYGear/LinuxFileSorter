@@ -8,10 +8,17 @@
       cmake -B build
       cmake --build build
       
-      sudo mv build/linuxfilesorter /usr/local/bin 
+      sudo mv build/linuxfilesorter /usr/local/bin/ 
 
       # optional - delete ~/LinuxFileSorter
       rm -rf ~/LinuxFileSorter
+
+  Install Pre-built:
+     
+    curl -L https://github.com/CYGear/LinuxFileSorter/releases/latest/download/linuxfilesorter -o linuxfilesorter
+    chmod +x linuxfilesorter
+    sudo mv linuxfilesorter /usr/local/bin/
+     
 
 # Usage 
     linuxfilesorter -flag
