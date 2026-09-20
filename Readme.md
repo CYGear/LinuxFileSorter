@@ -1,9 +1,9 @@
-This file sorter ONLY works on LINUX 
+### This file sorter ONLY works on LINUX 
 
 # Installation
     idk yet
 
-# USAGE 
+# Usage 
     LinuxFileSorter -flag
 
 # Flags  
