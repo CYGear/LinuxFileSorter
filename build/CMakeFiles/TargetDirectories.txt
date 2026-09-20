@@ -1,3 +1,0 @@
-/home/gear/LinuxFileSorter/build/CMakeFiles/LinuxFileSorter.dir
-/home/gear/LinuxFileSorter/build/CMakeFiles/edit_cache.dir
-/home/gear/LinuxFileSorter/build/CMakeFiles/rebuild_cache.dir
