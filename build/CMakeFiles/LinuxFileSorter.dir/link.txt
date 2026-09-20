@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/LinuxFileSorter.dir/link.d CMakeFiles/LinuxFileSorter.dir/main.c.o -o LinuxFileSorter

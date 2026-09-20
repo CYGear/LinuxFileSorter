@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/gear/LinuxFileSorter/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
