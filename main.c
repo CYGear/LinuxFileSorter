@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     switch (opt)
     {
       case 'h':
-        printf("Help: -h = help -i = images path -v = videos path -t = three d/3d models path -p = 3d print files path -a = audio path");
+        printf("Help:\n-h = help\n-i = images path\n-v = videos path\n-t = three d/3d models path\n-p = 3d print files path\n-a = audio path\n");
         return 0;
       case 'i':
         imagesPSize = strlen(optarg) + 1;
