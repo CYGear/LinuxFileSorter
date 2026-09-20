@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/gear/LinuxFileSorter/main.c" "CMakeFiles/LinuxFileSorter.dir/main.c.o" "gcc" "CMakeFiles/LinuxFileSorter.dir/main.c.o.d"
+  "/home/gear/LinuxFileSorter/sorting.c" "CMakeFiles/LinuxFileSorter.dir/sorting.c.o" "gcc" "CMakeFiles/LinuxFileSorter.dir/sorting.c.o.d"
   "" "LinuxFileSorter" "gcc" "CMakeFiles/LinuxFileSorter.dir/link.d"
   )
 

@@ -1,11 +1,11 @@
-CMakeFiles/LinuxFileSorter.dir/main.c.o: \
- /home/gear/LinuxFileSorter/main.c /usr/include/stdc-predef.h \
- /home/gear/LinuxFileSorter/Main.h /usr/include/stdio.h \
- /usr/include/bits/libc-header-start.h /usr/include/features.h \
- /usr/include/features-time64.h /usr/include/bits/wordsize.h \
- /usr/include/bits/timesize.h /usr/include/sys/cdefs.h \
- /usr/include/bits/long-double.h /usr/include/gnu/stubs.h \
- /usr/include/gnu/stubs-64.h \
+CMakeFiles/LinuxFileSorter.dir/sorting.c.o: \
+ /home/gear/LinuxFileSorter/sorting.c /usr/include/stdc-predef.h \
+ /home/gear/LinuxFileSorter/sorting.h /home/gear/LinuxFileSorter/Main.h \
+ /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
+ /usr/include/features.h /usr/include/features-time64.h \
+ /usr/include/bits/wordsize.h /usr/include/bits/timesize.h \
+ /usr/include/sys/cdefs.h /usr/include/bits/long-double.h \
+ /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/stdarg.h \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
@@ -43,5 +43,4 @@ CMakeFiles/LinuxFileSorter.dir/main.c.o: \
  /usr/include/bits/atomic_wide_counter.h /usr/include/bits/struct_mutex.h \
  /usr/include/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/bits/types/once_flag.h /usr/include/bits/stdlib-float.h \
- /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/stdbool.h \
- /home/gear/LinuxFileSorter/sorting.h
+ /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/stdbool.h

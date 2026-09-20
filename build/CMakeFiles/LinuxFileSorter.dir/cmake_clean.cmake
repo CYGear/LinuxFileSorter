@@ -2,6 +2,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/LinuxFileSorter.dir/link.d"
   "CMakeFiles/LinuxFileSorter.dir/main.c.o"
   "CMakeFiles/LinuxFileSorter.dir/main.c.o.d"
+  "CMakeFiles/LinuxFileSorter.dir/sorting.c.o"
+  "CMakeFiles/LinuxFileSorter.dir/sorting.c.o.d"
   "LinuxFileSorter"
   "LinuxFileSorter.pdb"
 )

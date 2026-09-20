@@ -1,15 +1,7 @@
 #include "Main.h"
 
-#include <stdio.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-
-#include <stdlib.h>
-
-#include <stdbool.h>
+// Helper libs
+#include "sorting.h"
 
 // 1. Get file extension
 // 2. Find directory to place file in 
@@ -191,76 +183,23 @@ int main(int argc, char *argv[])
 
       if (isImage && strcmp(imagesPath, "Not Used"))
       {
-        if (strchr(imagesPath, '/') != NULL)
-        {
-          if (*(strrchr(imagesPath, '/') + 1) == '\0')
-          {
-            newFileNameSize = strlen(imagesPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
-            temp = realloc(newFileName, newFileNameSize);
-            if (temp == NULL)
-            {
-              free(newFileName);
-              printf("\nMemory allocation failed.");
-              return 1;
-            }
-            newFileName = temp;
-            temp = NULL;
-
-            snprintf(newFileName, newFileNameSize, "%s%s", imagesPath, entry->d_name);
-          }
-          else 
-          {
-            newFileNameSize = strlen(imagesPath) + strlen(entry->d_name) + 2; // +2 for null terminator AND the extra / 
-            temp = realloc(newFileName, newFileNameSize);
-            if (temp == NULL)
-            {
-              free(newFileName);
-              printf("\nMemory allocation failed.");
-              return 1;
-            }
-            newFileName = temp;
-            temp = NULL;
-
-            snprintf(newFileName, newFileNameSize, "%s/%s", imagesPath, entry->d_name);
-          }
-        }
-        else 
-        {
-          printf("\nALL PATHS MUST HAVE ATLEAST 1 '/' CHARACTER.");
-          return 1;
-        } 
-
-        oldFileNameSize = strlen(downloadsFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
-        temp = realloc(oldFileName, oldFileNameSize);
-        if (temp == NULL)
-        {
-          free(oldFileName);
-          printf("\nMemory allocation failed.");
-          return 1;
-        }
-        oldFileName = temp;
-        temp = NULL;
-
-        snprintf(oldFileName, oldFileNameSize, "%s%s", downloadsFolderPath, entry->d_name);
-
-        rename(oldFileName, newFileName);
-        printf("%s -> %s\n", newFileName, entry->d_name); 
+        imageSort(imagesPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
       }
       else if (isVideo && strcmp(videosPath, "Not Used"))
       {
-        printf("%s -> %s\n", videosPath, entry->d_name); 
+        videoSort(videosPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
       }
       else if (isAudio && strcmp(audiosPath, "Not Used"))
       {
-        printf("%s -> %s\n", audiosPath, entry->d_name);
+        audioSort(audiosPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
       }
       else if (isThreeDModel && strcmp(threeDModelsPath, "Not Used"))
       {
-        printf("%s -> %s\n", threeDModelsPath, entry->d_name);
+        threeDModelSort(threeDModelsPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
       }
       else if (isThreeDPrint && strcmp(threeDPrintsPath, "Not Used"))
       {
-        printf("%s -> %s\n", threeDPrintsPath, entry->d_name);
+        threeDPrintSort(threeDPrintsPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
       }
 
     }

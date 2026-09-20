@@ -153,6 +153,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LinuxFileSorter.dir/build.make CMakeFiles/LinuxFileSorter.dir/main.c.s
 .PHONY : main.c.s
 
+sorting.o: sorting.c.o
+.PHONY : sorting.o
+
+# target to build an object file
+sorting.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LinuxFileSorter.dir/build.make CMakeFiles/LinuxFileSorter.dir/sorting.c.o
+.PHONY : sorting.c.o
+
+sorting.i: sorting.c.i
+.PHONY : sorting.i
+
+# target to preprocess a source file
+sorting.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LinuxFileSorter.dir/build.make CMakeFiles/LinuxFileSorter.dir/sorting.c.i
+.PHONY : sorting.c.i
+
+sorting.s: sorting.c.s
+.PHONY : sorting.s
+
+# target to generate assembly for a file
+sorting.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LinuxFileSorter.dir/build.make CMakeFiles/LinuxFileSorter.dir/sorting.c.s
+.PHONY : sorting.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... sorting.o"
+	@echo "... sorting.i"
+	@echo "... sorting.s"
 .PHONY : help
 
 
