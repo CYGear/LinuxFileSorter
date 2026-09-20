@@ -33,7 +33,7 @@
 
 Only use flags for types of files you want to sort
 
-    EX: LinuxFileSorter -i ~/PATH_TO_IMAGES -a ~/PATH_TO_AUDIOS 
+    EX: linuxfilesorter -i ~/PATH_TO_IMAGES -a ~/PATH_TO_AUDIOS 
     
     This only sorts images and audio files into their corresponding folders
 
