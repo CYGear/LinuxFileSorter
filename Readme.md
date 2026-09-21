@@ -15,7 +15,7 @@
 
   Install Pre-built:
       
-      curl -L https://github.com/LinuxFileSorter/releases/latest/download/linuxfilesorter -o linuxfilesorter
+      curl -L https://github.com/CYGear/LinuxFileSorter/releases/latest/download/linuxfilesorter -o linuxfilesorter
 
       chmod +x linuxfilesorter
       sudo mv linuxfilesorter /usr/local/bin/
