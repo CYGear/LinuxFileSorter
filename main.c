@@ -7,6 +7,60 @@
 // 2. Find directory to place file in 
 // 3. Rename file, if files are in dif
 
+bool is_valid_directory(char *path)
+{
+  struct stat path_stat;
+  
+  if (stat(path, &path_stat) != 0)
+  {
+    return false;
+  }
+
+  return S_ISDIR(path_stat.st_mode);
+}
+
+void pathValidation(char *path, size_t *pathToChangeSize, char **pathToChange)
+{
+  char *temp = NULL;
+
+  if ((path != NULL && strlen(path) > 0) && is_valid_directory(path))
+  {
+    if (path[(strlen(path) - 1)] == '/')
+    {
+      *pathToChangeSize = strlen(path) + 1; // length of path + null terminator
+      temp = realloc(*pathToChange, *pathToChangeSize);
+      if (temp == NULL)
+      {
+        printf("\nMemory allocation failed.");
+        free(*pathToChange);
+        exit(1);
+      }
+      *pathToChange = temp;
+    
+      snprintf(*pathToChange, *pathToChangeSize, path);
+    }
+    else
+    {
+      *pathToChangeSize = strlen(path) + 2; // length of path + / + null terminator
+      temp = realloc(*pathToChange, *pathToChangeSize);
+      if (temp == NULL)
+      {
+        printf("\nMemory allocation failed.");
+        free(*pathToChange);
+        exit(1);
+      }
+      *pathToChange = temp;
+
+      snprintf(*pathToChange, *pathToChangeSize, "%s/", path);
+    }
+  }
+  else 
+  {
+    printf("\nPlease enter valid path.");
+    exit(1);
+  }
+}
+
 int main(int argc, char *argv[])
 {
   size_t newFileNameSize = 1024;
@@ -19,6 +73,15 @@ int main(int argc, char *argv[])
   size_t oldFileNameSize = 1024;
   char *oldFileName = malloc(oldFileNameSize);
   if (newFileName == NULL)
+  {
+    printf("\nMemory allocation failed.");
+    return 1;
+  }
+
+  // MAIN DIR 
+  size_t mainFolderPSize = 1024;
+  char *mainFolderPath = malloc(mainFolderPSize);
+  if (mainFolderPath == NULL)
   {
     printf("\nMemory allocation failed.");
     return 1;
@@ -69,102 +132,43 @@ int main(int argc, char *argv[])
   }
   strcpy(audiosPath, "Not Used");
 
-  char *temp = NULL; // temp pointer for paths
-
   int opt;
 
-  while ((opt = getopt(argc, argv, "hi:v:t:p:a:")) != -1) // -h = help -i = images path -v = videos path -t = three d/3d models -p = 3d print files -a = audios path
+  while ((opt = getopt(argc, argv, "hm:i:v:t:p:a:")) != -1) // -h = help -m = main path to sort -i = images path -v = videos path -t = three d/3d models -p = 3d print files -a = audios path
   {
     switch (opt)
     {
       case 'h':
-        printf("Help:\n-h = help\n-i = images path\n-v = videos path\n-t = three d/3d models path\n-p = 3d print files path\n-a = audio path\n");
+        printf("\e[0;33mHelp:\n-h = help\n-m = main path to sort \n-i = images path\n-v = videos path\n-t = three d/3d models path\n-p = 3d print files path\n-a = audio path\e[0m\n");
         return 0;
+      case 'm':
+        pathValidation(optarg, &mainFolderPSize, &mainFolderPath);
+        break;
       case 'i':
-        imagesPSize = strlen(optarg) + 1;
-        temp = realloc(imagesPath, imagesPSize);
-        if (temp == NULL)
-        {
-          printf("\nMemory allocation failed.");
-          free(imagesPath);
-          return 1;
-        }
-        imagesPath = temp;
-
-        snprintf(imagesPath, imagesPSize, optarg);
-      
+        pathValidation(optarg, &imagesPSize, &imagesPath);  
         break;
       case 'v':
-        videosPSize = strlen(optarg) + 1;
-        temp = realloc(videosPath, videosPSize);
-        if (temp == NULL)
-        {
-          printf("\nMemory allocation failed.");
-          free(videosPath);
-          return 1;
-        }
-        videosPath = temp;
-
-        snprintf(videosPath, videosPSize, optarg);
-        
+        pathValidation(optarg, &videosPSize, &videosPath);
         break;
       case 't':
-        tdmPSize = strlen(optarg) + 1;
-        temp = realloc(threeDModelsPath, tdmPSize);
-        if (temp == NULL)
-        {
-          printf("\nMemory allocation failed.");
-          free(threeDModelsPath);
-          return 1;
-        }
-        threeDModelsPath = temp;
-
-        snprintf(threeDModelsPath, tdmPSize, optarg);
-        
+        pathValidation(optarg, &tdmPSize, &threeDModelsPath);        
         break;
       case 'p':
-        tdpPSize = strlen(optarg) + 1;
-        temp = realloc(threeDPrintsPath, tdpPSize);
-        if (temp == NULL)
-        {
-          printf("\nMemory allocation failed.");
-          free(threeDPrintsPath);
-          return 1;
-        }
-        threeDPrintsPath = temp;
-
-        snprintf(threeDPrintsPath, tdpPSize, optarg);
-        
+        pathValidation(optarg, &tdpPSize, &threeDPrintsPath);        
         break;
       case 'a':
-        audiosPSize = strlen(optarg) + 1;
-        temp = realloc(audiosPath, audiosPSize);
-        if (temp == NULL)
-        {
-          printf("\nMemory allocation failed.");
-          free(audiosPath);
-          return 1;
-        }
-        audiosPath = temp;
-
-        snprintf(audiosPath, audiosPSize, optarg);
-        
+        pathValidation(optarg, &audiosPSize, &audiosPath);
         break;
       case '?':
-        printf("Unkown option or missing argument.\n");
+        printf("\e[0;31mUnkown option or missing argument.\e[0m\n");
         return 0;
     }
   }
 
-  size_t dFFPSize = strlen(getenv("HOME")) + 12; // length of home dir + /Downloads/ -- 11 + 1 for null terminator
-  char *downloadsFolderPath = malloc(dFFPSize);
-
-  snprintf(downloadsFolderPath, dFFPSize, "%s/Downloads/", getenv("HOME"));
-
-  DIR *downloadsFolder = opendir(downloadsFolderPath);
+  DIR *mainFolder = opendir(mainFolderPath);
 
   struct dirent *entry;
-  while ((entry = readdir(downloadsFolder)) != NULL)
+  while ((entry = readdir(mainFolder)) != NULL)
   {
     if (strrchr(entry->d_name, '.') != NULL)
     {
@@ -183,31 +187,32 @@ int main(int argc, char *argv[])
 
       if (isImage && strcmp(imagesPath, "Not Used"))
       {
-        imageSort(imagesPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
+        fileSort(imagesPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, mainFolderPath, entry);           
       }
       else if (isVideo && strcmp(videosPath, "Not Used"))
       {
-        videoSort(videosPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
+        fileSort(videosPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, mainFolderPath, entry);           
       }
       else if (isAudio && strcmp(audiosPath, "Not Used"))
       {
-        audioSort(audiosPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
+        fileSort(audiosPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, mainFolderPath, entry);           
       }
       else if (isThreeDModel && strcmp(threeDModelsPath, "Not Used"))
       {
-        threeDModelSort(threeDModelsPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
+        fileSort(threeDModelsPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, mainFolderPath, entry);           
       }
       else if (isThreeDPrint && strcmp(threeDPrintsPath, "Not Used"))
       {
-        threeDPrintSort(threeDPrintsPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, downloadsFolderPath, entry);           
+        fileSort(threeDPrintsPath, &newFileName, &newFileNameSize, &oldFileName, &oldFileNameSize, mainFolderPath, entry);           
       }
 
     }
   }
 
-  closedir(downloadsFolder);
+  printf("\n\n\e[1;93mFILES SORTED\e[0m\n");
 
-  free(downloadsFolderPath);
+  closedir(mainFolder);
+  free(mainFolderPath);
 
   free(imagesPath); 
   free(videosPath);

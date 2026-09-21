@@ -1,49 +1,23 @@
 #include "sorting.h"
 
-void imageSort(char *imagesPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *downloadsFolderPath, struct dirent *entry)
+void fileSort(char *destinationPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *mainFolderPath, struct dirent *entry)
 {
   char *temp = NULL;
-
-  if (strchr(imagesPath, '/') != NULL)
+  
+  *newFileNameSize = strlen(destinationPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
+  temp = realloc(*newFileName, *newFileNameSize);
+  if (temp == NULL)
   {
-    if (*(strrchr(imagesPath, '/') + 1) == '\0')
-    {
-      *newFileNameSize = strlen(imagesPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s%s", imagesPath, entry->d_name);
-    }
-    else 
-    {
-      *newFileNameSize = strlen(imagesPath) + strlen(entry->d_name) + 2; // +2 for null terminator AND the extra / 
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s/%s", imagesPath, entry->d_name);
-    }
-  }
-  else 
-  {
-    printf("\nALL PATHS MUST HAVE ATLEAST 1 '/' CHARACTER.");
+    free(*newFileName);
+    printf("\nMemory allocation failed.");
     exit(1);
-  } 
+  }
+  *newFileName = temp;
+  temp = NULL;
 
-  *oldFileNameSize = strlen(downloadsFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
+  snprintf(*newFileName, *newFileNameSize, "%s%s", destinationPath, entry->d_name);
+
+  *oldFileNameSize = strlen(mainFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
   temp = realloc(*oldFileName, *oldFileNameSize);
   if (temp == NULL)
   {
@@ -54,13 +28,12 @@ void imageSort(char *imagesPath, char **newFileName, size_t *newFileNameSize, ch
   *oldFileName = temp;
   temp = NULL;
 
-  snprintf(*oldFileName, *oldFileNameSize, "%s%s", downloadsFolderPath, entry->d_name);
+  snprintf(*oldFileName, *oldFileNameSize, "%s%s", mainFolderPath, entry->d_name);
 
-  printf("\n\nOLDFILENAME: %s\nNEWFILENAME: %s", *oldFileName, *newFileName);
   int result = rename(*oldFileName, *newFileName);
   if (result == 0)
   {
-    printf("%s -> %s\n", *newFileName, entry->d_name); 
+    printf("\n\e[1;32mMoved:\e[0m %s -> %s", *oldFileName, *newFileName); 
   }
   else
   {
@@ -68,281 +41,4 @@ void imageSort(char *imagesPath, char **newFileName, size_t *newFileNameSize, ch
     exit(1);
   }
 }
-
-void videoSort(char *videosPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *downloadsFolderPath, struct dirent *entry)
-{
-  char *temp = NULL;
-
-  if (strchr(videosPath, '/') != NULL)
-  {
-    if (*(strrchr(videosPath, '/') + 1) == '\0')
-    {
-      *newFileNameSize = strlen(videosPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s%s", videosPath, entry->d_name);
-    }
-    else 
-    {
-      *newFileNameSize = strlen(videosPath) + strlen(entry->d_name) + 2; // +2 for null terminator AND the extra / 
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s/%s", videosPath, entry->d_name);
-    }
-  }
-  else 
-  {
-    printf("\nALL PATHS MUST HAVE ATLEAST 1 '/' CHARACTER.");
-    exit(1);
-  } 
-
-  *oldFileNameSize = strlen(downloadsFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
-  temp = realloc(*oldFileName, *oldFileNameSize);
-  if (temp == NULL)
-  {
-    free(*oldFileName);
-    printf("\nMemory allocation failed.");
-    exit(1);
-  }
-  *oldFileName = temp;
-  temp = NULL;
-
-  snprintf(*oldFileName, *oldFileNameSize, "%s%s", downloadsFolderPath, entry->d_name);
-
-  printf("\n\nOLDFILENAME: %s\nNEWFILENAME: %s", *oldFileName, *newFileName);
-  int result = rename(*oldFileName, *newFileName);
-  if (result == 0)
-  {
-    printf("%s -> %s\n", *newFileName, entry->d_name); 
-  }
-  else
-  {
-    printf("\nFailed to move file.");
-    exit(1);
-  }
-}
-
-void audioSort(char *audiosPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *downloadsFolderPath, struct dirent *entry)
-{
-  char *temp = NULL;
-
-  if (strchr(audiosPath, '/') != NULL)
-  {
-    if (*(strrchr(audiosPath, '/') + 1) == '\0')
-    {
-      *newFileNameSize = strlen(audiosPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s%s", audiosPath, entry->d_name);
-    }
-    else 
-    {
-      *newFileNameSize = strlen(audiosPath) + strlen(entry->d_name) + 2; // +2 for null terminator AND the extra / 
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s/%s", audiosPath, entry->d_name);
-    }
-  }
-  else 
-  {
-    printf("\nALL PATHS MUST HAVE ATLEAST 1 '/' CHARACTER.");
-    exit(1);
-  } 
-
-  *oldFileNameSize = strlen(downloadsFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
-  temp = realloc(*oldFileName, *oldFileNameSize);
-  if (temp == NULL)
-  {
-    free(*oldFileName);
-    printf("\nMemory allocation failed.");
-    exit(1);
-  }
-  *oldFileName = temp;
-  temp = NULL;
-
-  snprintf(*oldFileName, *oldFileNameSize, "%s%s", downloadsFolderPath, entry->d_name);
-
-  printf("\n\nOLDFILENAME: %s\nNEWFILENAME: %s", *oldFileName, *newFileName);  
-  int result = rename(*oldFileName, *newFileName);
-  if (result == 0)
-  {
-    printf("%s -> %s\n", *newFileName, entry->d_name); 
-  }
-  else
-  {
-    printf("\nFailed to move file.");
-    exit(1);
-  }
-}
-
-void threeDModelSort(char *threeDModelsPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *downloadsFolderPath, struct dirent *entry)
-{
-  char *temp = NULL;
-
-  if (strchr(threeDModelsPath, '/') != NULL)
-  {
-    if (*(strrchr(threeDModelsPath, '/') + 1) == '\0')
-    {
-      *newFileNameSize = strlen(threeDModelsPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s%s", threeDModelsPath, entry->d_name);
-    }
-    else 
-    {
-      *newFileNameSize = strlen(threeDModelsPath) + strlen(entry->d_name) + 2; // +2 for null terminator AND the extra / 
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s/%s", threeDModelsPath, entry->d_name);
-    }
-  }
-  else 
-  {
-    printf("\nALL PATHS MUST HAVE ATLEAST 1 '/' CHARACTER.");
-    exit(1);
-  } 
-
-  *oldFileNameSize = strlen(downloadsFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
-  temp = realloc(*oldFileName, *oldFileNameSize);
-  if (temp == NULL)
-  {
-    free(*oldFileName);
-    printf("\nMemory allocation failed.");
-    exit(1);
-  }
-  *oldFileName = temp;
-  temp = NULL;
-
-  snprintf(*oldFileName, *oldFileNameSize, "%s%s", downloadsFolderPath, entry->d_name);
-
-  printf("\n\nOLDFILENAME: %s\nNEWFILENAME: %s", *oldFileName, *newFileName);
-  int result = rename(*oldFileName, *newFileName);
-  if (result == 0)
-  {
-    printf("%s -> %s\n", *newFileName, entry->d_name); 
-  }
-  else
-  {
-    printf("\nFailed to move file.");
-    exit(1);
-  }
-}
-
-void threeDPrintSort(char *threeDPrintsPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *downloadsFolderPath, struct dirent *entry)
-{
-  char *temp = NULL;
-
-  if (strchr(threeDPrintsPath, '/') != NULL)
-  {
-    if (*(strrchr(threeDPrintsPath, '/') + 1) == '\0')
-    {
-      *newFileNameSize = strlen(threeDPrintsPath) + strlen(entry->d_name) + 1; // +1 for the null terminator  
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s%s", threeDPrintsPath, entry->d_name);
-    }
-    else 
-    {
-      *newFileNameSize = strlen(threeDPrintsPath) + strlen(entry->d_name) + 2; // +2 for null terminator AND the extra / 
-      temp = realloc(*newFileName, *newFileNameSize);
-      if (temp == NULL)
-      {
-        free(*newFileName);
-        printf("\nMemory allocation failed.");
-        exit(1);
-      }
-      *newFileName = temp;
-      temp = NULL;
-
-      snprintf(*newFileName, *newFileNameSize, "%s/%s", threeDPrintsPath, entry->d_name);
-    }
-  }
-  else 
-  {
-    printf("\nALL PATHS MUST HAVE ATLEAST 1 '/' CHARACTER.");
-    exit(1);
-  } 
-
-  *oldFileNameSize = strlen(downloadsFolderPath) + strlen(entry->d_name) + 1; // +1 for null terminator
-  temp = realloc(*oldFileName, *oldFileNameSize);
-  if (temp == NULL)
-  {
-    free(*oldFileName);
-    printf("\nMemory allocation failed.");
-    exit(1);
-  }
-  *oldFileName = temp;
-  temp = NULL;
-
-  snprintf(*oldFileName, *oldFileNameSize, "%s%s", downloadsFolderPath, entry->d_name);
-
-  printf("\n\nOLDFILENAME: %s\nNEWFILENAME: %s", *oldFileName, *newFileName);
-  int result = rename(*oldFileName, *newFileName);
-  if (result == 0)
-  {
-    printf("%s -> %s\n", *newFileName, entry->d_name); 
-  }
-  else
-  {
-    printf("\nFailed to move file.");
-    exit(1);
-  }
-}
-
 

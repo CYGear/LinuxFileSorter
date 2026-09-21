@@ -3,10 +3,6 @@
 
 #include "Main.h"
 
-void imageSort(char *, char **, size_t *, char **, size_t *, char *, struct dirent *);
-void videoSort(char *, char **, size_t *, char **, size_t *, char *, struct dirent *);
-void audioSort(char *, char **, size_t *, char **, size_t *, char *, struct dirent *);
-void threeDModelSort(char *, char **, size_t *, char **, size_t *, char *, struct dirent *);
-void threeDPrintSort(char *, char **, size_t *, char **, size_t *, char *, struct dirent *);
+void fileSort(char *destinationPath, char **newFileName, size_t *newFileNameSize, char **oldFileName, size_t *oldFileNameSize, char *mainFolderPath, struct dirent *entry);
 
 #endif
