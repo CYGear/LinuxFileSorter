@@ -25,6 +25,7 @@
 
 # Flags  
     -h = help
+    -m = path to folder to sort
     -i = path to Images folder
     -v = path to Videos folder
     -t = path to 3D Models folder
@@ -33,7 +34,7 @@
 
 Only use flags for types of files you want to sort
 
-    EX: linuxfilesorter -i ~/PATH_TO_IMAGES -a ~/PATH_TO_AUDIOS 
+    EX: linuxfilesorter -m ~/PATH_TO_SORTING_FOLDER -i ~/PATH_TO_IMAGES -a ~/PATH_TO_AUDIOS 
     
     This only sorts images and audio files into their corresponding folders
 
